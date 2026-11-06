@@ -1,0 +1,8 @@
+# Arquivos txt
+*.txt
+
+# Arquivos de compilação
+*.out
+
+# Arquivos de configuração do IDE
+.vscode/
