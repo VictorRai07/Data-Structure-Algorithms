@@ -5,15 +5,25 @@
 #include <time.h>
 
 void troca(int *array, int i, int j);
+
 double booble_sort(int *array, int tam_array);
 double insertion_sort(int *array, int tam_array);
 
 void merge_sort(int *array, int inicio, int fim);
 void merge(int *array, int inicio_e, int meio, int inicio_d);
+double merge_wrapper(int *array, int tam_array);
 
+double quick_wrapper(int *array, int inicio, int fim);
 void quick_sort(int *array, int inicio, int fim);
 int particiona_random(int vet[], int inicio, int fim);
 int particiona(int vet[], int inicio, int fim);
+
+double heapSort_wrapper(int *array, int fim);
+void heapSort(int *array, int raiz);
+void heapify(int *array, int fim, int raiz);
+
+void selection_sort(int array[], int tam_array);
+double selection_wrapper(int *array, int tam_array);
 
 int main() {
   int max_int = INT_MAX;
@@ -39,24 +49,25 @@ int main() {
   printf("Tempo de execução do Insertion Sort: %f segundos\n",
          insertion_sort(array, tamanho_array));
 
-  inicio = clock();
-  merge_sort(copy, 0, tamanho_array - 1);
-  fim = clock();
-  t_total = difftime(fim, inicio);
-  printf("Tempo de execução do Merge Sort: %f segundos\n", t_total);
+  printf("Tempo de execução do Merge Sort: %f segundos\n",
+         merge_wrapper(array, tamanho_array));
 
-  inicio = clock();
-  quick_sort(copy, 0, tamanho_array - 1);
-  fim = clock();
-  t_total = difftime(fim, inicio);
-  printf("Tempo de execução do Quick Sort: %f segundos\n", t_total);
+  printf("Tempo de execução do Quick Sort: %f segundos\n",
+         quick_wrapper(array, 0, tamanho_array));
+
+  printf("Tempo de execução do Heap Sort: %f segundos\n",
+         heapSort_wrapper(array, tamanho_array));
+
+  printf("Tempo de execução do Selection Sort: %f segundos\n",
+         selection_wrapper(array, tamanho_array));
+
   return 0;
 }
 
 void troca(int *array, int i, int j) {
-  int aux = j;
-  j = i;
-  i = aux;
+  int aux = array[j];
+  array[j] = array[i];
+  array[i] = aux;
 }
 
 double booble_sort(int *array, int tam_array) {
@@ -75,9 +86,8 @@ double booble_sort(int *array, int tam_array) {
   }
 
   fim = clock();
-  double t_total = (double)(fim - inicio) / CLOCKS_PER_SEC;
 
-  return t_total;
+  return difftime(fim, inicio);
 }
 
 double insertion_sort(int *array, int tam_array) {
@@ -99,8 +109,18 @@ double insertion_sort(int *array, int tam_array) {
   }
   fim = clock();
 
-  double t_total = (double)(fim - inicio) / CLOCKS_PER_SEC;
-  return t_total;
+  return difftime(fim, inicio);
+}
+
+double merge_wrapper(int *array, int tam_array) {
+  time_t inicio, fim;
+  int copy[tam_array];
+  memcpy(copy, array, sizeof(int) * tam_array);
+
+  inicio = clock();
+  merge_sort(copy, 0, tam_array - 1);
+  fim = clock();
+  return difftime(fim, inicio);
 }
 
 void merge_sort(int *array, int inicio, int fim) {
@@ -158,6 +178,18 @@ void merge(int *array, int inicio, int meio, int fim) {
 }
 
 /*==================== QUICK SORT ====================*/
+
+double quick_wrapper(int *array, int inicio_v, int fim_v) {
+  time_t inicio, fim;
+  int tam_array = sizeof(array) / sizeof(array[0]);
+  int copy[(sizeof(array) / sizeof(array[0]))];
+  memcpy(copy, array, sizeof(array));
+
+  inicio = clock();
+  quick_sort(copy, 0, tam_array - 1);
+  fim = clock();
+  return difftime(fim, inicio);
+}
 int particiona(int vet[], int inicio, int fim) {
   int pivo, pivo_indice, i;
 
@@ -200,5 +232,70 @@ void quick_sort(int vet[], int inicio, int fim) {
     // chamadas recursivas quick_sort
     quick_sort(vet, inicio, pivo_indice - 1);
     quick_sort(vet, pivo_indice + 1, fim);
+  }
+}
+
+double heapSort_wrapper(int *array, int fim) {
+  time_t inicio_t, fim_t;
+
+  int copy[fim];
+  memcpy(copy, array, sizeof(array));
+  inicio_t = clock();
+  heapSort(copy, 0);
+  fim_t = clock();
+  return difftime(fim_t, inicio_t);
+}
+
+void heapSort(int *array, int fim) {
+  for (int i = fim / 2 - 1; i > 0; i--)
+    heapify(array, fim, i);
+
+  for (int i = fim - 1; i > 0; i--) {
+    troca(array, i, 0);
+
+    heapify(array, i, 0);
+  }
+}
+
+void heapify(int *array, int fim, int raiz) {
+  int maior = raiz;
+
+  int e = 2 * raiz + 1;
+  int d = 2 * raiz + 2;
+
+  if (e < fim && array[e] > array[maior])
+    maior = e;
+
+  if (d < fim && array[d] > array[maior])
+    maior = d;
+
+  // If largest is not root
+  if (maior != raiz) {
+    troca(array, raiz, maior);
+
+    heapify(array, raiz, maior);
+  }
+}
+double selection_wrapper(int *array, int tam_array) {
+  time_t inicio_t, fim_t;
+
+  int copy[tam_array];
+  memcpy(copy, array, sizeof(array));
+  inicio_t = clock();
+  selection_sort(copy, tam_array);
+  fim_t = clock();
+  return difftime(fim_t, inicio_t);
+}
+void selection_sort(int array[], int tam_array) {
+
+  for (int i = 0; i < tam_array; i++) {
+
+    int min_indx = 1;
+
+    for (int j = i + 1; j < tam_array; j++) {
+      if (array[j] < array[min_indx])
+        min_indx = j;
+    }
+    troca(array, min_indx, i);
   }
 }
