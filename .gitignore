@@ -6,3 +6,6 @@
 
 # Arquivos de configuração do IDE
 .vscode/
+
+# Arquivos objetos
+build/
