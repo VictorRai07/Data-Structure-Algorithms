@@ -1,8 +1,6 @@
 # Data-Structure-Algorithms
 
-![Algorithm Image] (<https://www.flaticon.com/free-icon/coding_6632031>)
-
-Contêm o meu aprendizado sobre 8 diferentes algoritmos de ordenação de dados.
+Contêm um código que retorna o tempo de execução de 9 diferentes algoritmos de ordenação de dados.
 
 ## Os algoritmos presentes nesse repositório
 
@@ -14,3 +12,4 @@ Quick Sort
 Counting Sort
 Heap Sort
 Radix Sort
+Bucket Sort
