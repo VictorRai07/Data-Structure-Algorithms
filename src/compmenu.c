@@ -1,7 +1,7 @@
-#include "../include/menu.h"
-#include "../include/ordenacao.h"
-#include "../include/utils.h"
-#include "stdio.h"
+#include "compmenu.h"
+#include "ordenacao.h"
+#include "utils.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 void freeBuffer(void) {
@@ -50,9 +50,8 @@ void menuOrdenacao(int *array, int tam_array) {
       limparTela();
       printf("\n\n\t=========================================\n");
       for (int i = 0; i < 9; i++) {
-        double tempo = ordenacaoTempo(algoritmos[i].func, array, tam_array);
         printf("\tO algoritmo %s ordenou o vetor em %fs\n", algoritmos[i].nome,
-               tempo);
+               ordenacaoTempo(algoritmos[i].func, array, tam_array));
       }
       printf("\t=========================================\n\n");
     }

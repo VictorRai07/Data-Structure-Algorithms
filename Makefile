@@ -6,8 +6,8 @@ CFLAGS = -Wall -g -Iinclude
 TARGET = main
 
 # Arquivos fonte e os respectivos objetos temporários na pasta build/
-SRCS = src/main.c src/utils.c src/ordenacao.c src/menu.c
-OBJS = build/main.o build/utils.o build/ordenacao.o build/menu.o
+SRCS = src/main.c src/utils.c src/ordenacao.c src/compmenu.c
+OBJS = build/main.o build/utils.o build/ordenacao.o build/compmenu.o
 
 # Regra padrão
 all: $(TARGET)
@@ -17,7 +17,7 @@ $(TARGET): $(OBJS)
 	$(CC) $(OBJS) -o $(TARGET)
 
 # Regra para compilar os .c em .o na pasta build/
-build/%.o: src/%.c include/utils.h include/ordenacao.h include/menu.h
+build/%.o: src/%.c include/utils.h include/ordenacao.h include/compmenu.h
 	@mkdir -p build
 	$(CC) $(CFLAGS) -c $< -o $@
 

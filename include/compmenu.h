@@ -1,7 +1,7 @@
 #include "utils.h"
 
-#ifndef _MENU_H_
-#define _MENU_H_
+#ifndef _COMP_MENU_H_
+#define _COMP_MENU_H_
 /* Exibe um menu com 9 possibilidades de algoritmo de ordenação */
 void menuOrdenacao(int *array, int tam_array);
 
@@ -16,4 +16,4 @@ typedef struct {
 
 /* Limpa a tela do terminal */
 void limparTela();
-#endif // !__MENU_H_
+#endif // !__COMP_MENU_H_
