@@ -1,12 +1,12 @@
-#include "../include/ordenacao.h"
-#include "../include/utils.h"
+#include "ordenacao.h"
+#include "utils.h"
 #include <stdlib.h>
 #include <time.h>
 
 static void merge_sort_recursivo(int *array, int inicio, int fim);
 static void merge(int *array, int inicio, int meio, int fim);
 
-static void heapSort_recursivo(int *array, int fim);
+static void executar_heapsort(int *array, int fim);
 static void heapify(int *array, int fim, int raiz);
 
 static void quick_sort_recursivo(int vet[], int inicio, int fim);
@@ -18,10 +18,10 @@ static void countDigit(int *array, int tam_array, int exp);
 void bucketSort(int *array, int tam_array);
 static bucket *InsertionBucket(bucket *grupo, int valor);
 
-static void troca(int *array, int i, int j) {
-  int aux = array[i];
-  array[i] = array[j];
-  array[j] = aux;
+static void troca(int *i, int *j) {
+  int aux = *i;
+  *i = *j;
+  *j = aux;
 }
 
 /*==========================BOOBLE SORT================================*/
@@ -29,7 +29,7 @@ void boobleSort(int *array, int tam_array) {
   for (int i = 0; i < tam_array; i++) {
     for (int j = i + 1; j < tam_array; j++) {
       if (array[i] > array[j]) {
-        troca(array, i, j);
+        troca(&array[i], &array[j]);
       }
     }
   }
@@ -53,15 +53,14 @@ void insertionSort(int *array, int tam_array) {
 /*=============================================SELECTION
  * SORT=================================================*/
 void selectionSort(int *array, int tam_array) {
-  for (int i = 0; i < tam_array; i++) {
-
-    int min_indx = 1;
+  for (int i = 0; i < tam_array - 1; i++) {
+    int min_indx = i;
 
     for (int j = i + 1; j < tam_array; j++) {
       if (array[j] < array[min_indx])
         min_indx = j;
     }
-    troca(array, min_indx, i);
+    troca(&array[i], &array[min_indx]);
   }
 }
 
@@ -156,14 +155,14 @@ static int particiona(int vet[], int inicio, int fim) {
     // verifica se o elemento é <= ao pivô
     if (vet[i] <= pivo) {
       // realiza a troca
-      troca(vet, i, pivo_indice);
+      troca(&vet[i], &vet[pivo_indice]);
       // incrementa o pivo_indice
       pivo_indice++;
     }
   }
 
   // troca o pivô
-  troca(vet, pivo_indice, fim);
+  troca(&vet[pivo_indice], &vet[fim]);
 
   // retorna o índice do pivô
   return pivo_indice;
@@ -174,23 +173,23 @@ static int particiona_random(int vet[], int inicio, int fim) {
   int pivo_indice = (rand() % (fim - inicio + 1)) + inicio;
 
   // faz a troca para colocar o pivô no fim
-  troca(vet, pivo_indice, fim);
+  troca(&vet[pivo_indice], &vet[fim]);
+
   // chama a particiona
   return particiona(vet, inicio, fim);
 }
 /*==============================HEAP SORT=================================*/
 void heapSort(int *array, int tam_array) {
   if (tam_array > 1)
-    heapSort_recursivo(array, tam_array - 1);
+    executar_heapsort(array, tam_array);
 }
 
-static void heapSort_recursivo(int *array, int fim) {
-  for (int i = fim / 2 - 1; i > 0; i--)
+static void executar_heapsort(int *array, int fim) {
+  for (int i = fim / 2 - 1; i >= 0; i--)
     heapify(array, fim, i);
 
   for (int i = fim - 1; i > 0; i--) {
-    troca(array, i, 0);
-
+    troca(&array[0], &array[i]);
     heapify(array, i, 0);
   }
 }
@@ -207,11 +206,9 @@ static void heapify(int *array, int fim, int raiz) {
   if (d < fim && array[d] > array[maior])
     maior = d;
 
-  // If largest is not root
   if (maior != raiz) {
-    troca(array, raiz, maior);
-
-    heapify(array, raiz, maior);
+    troca(&array[raiz], &array[maior]);
+    heapify(array, fim, maior);
   }
 }
 

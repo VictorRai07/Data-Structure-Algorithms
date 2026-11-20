@@ -9,6 +9,20 @@ typedef enum {
   IGUAIS
 } StatusOrdenacao;
 
+static inline const char *status_para_string(StatusOrdenacao status) {
+  switch (status) {
+  case NAO_ORDENADO:
+    return "NAO_ORDENADO";
+  case CRESCENTE:
+    return "CRESCENTE";
+  case DECRESCENTE:
+    return "DECRESCENTE";
+  case IGUAIS:
+    return "IGUAIS";
+  default:
+    return "DESCONHECIDO";
+  }
+}
 /* Retorna o estado de ordenação de um array */
 StatusOrdenacao verificar_ordenacao(int *array, int tam_array);
 

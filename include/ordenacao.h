@@ -23,7 +23,7 @@ static int particiona_random(int *array, int inicio, int fim);
 static int particiona(int *array, int inicio, int fim);
 
 void heapSort(int *array, int tam_array);
-static void heapSort_recursivo(int *array, int root);
+static void executar_heapsort(int *array, int root);
 static void heapify(int *array, int fim, int raiz);
 
 /* Função que ordena em ordem crescente um array de inteiros de n elementos

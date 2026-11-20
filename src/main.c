@@ -1,9 +1,10 @@
-#include "../include/menu.h"
-#include "../include/utils.h"
+#include "compmenu.h"
+#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(void) {
+  limparTela();
   int tam_array, intervalo_limite, menu, tempo;
   printf("Digite o tamanho do vetor: ");
   while (scanf("%d", &tam_array) != 1 || tam_array < 1) {
